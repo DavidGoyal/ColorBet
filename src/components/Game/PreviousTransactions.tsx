@@ -20,6 +20,8 @@ type Transaction = {
 	id: number;
 };
 
+export const dynamic = "force-dynamic";
+
 const PreviousTransactions = () => {
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const { toast } = useToast();
