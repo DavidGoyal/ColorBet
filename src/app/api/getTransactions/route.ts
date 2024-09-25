@@ -1,5 +1,7 @@
 import prisma from "@/lib/db";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
 	try {
 		const transactions = await prisma.transaction.findMany({
