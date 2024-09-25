@@ -50,7 +50,7 @@ const ShowSol = () => {
 	) : (
 		<div className="flex gap-2 items-center rounded-full border-[1px] border-white px-6 py-2">
 			<Image src={img} alt="logo" className="w-6 h-6" />
-			<p className="text-xl">{balance.toFixed(2)} SOL</p>
+			<p className="text-xl">{balance.toFixed(5)} SOL</p>
 		</div>
 	);
 };
