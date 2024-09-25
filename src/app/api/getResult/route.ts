@@ -30,9 +30,6 @@ export async function POST(req: NextRequest) {
 			signature
 		);
 
-		console.log(receiver, sender, transactionAmount);
-		console.log(solPrice);
-
 		if (
 			sender !== wallet ||
 			receiver !== process.env.NEXT_PUBLIC_PUBLIC_KEY ||
@@ -57,13 +54,6 @@ export async function POST(req: NextRequest) {
 		const thirdAnswer = Math.round(Math.random() * 1);
 		const fourthAnswer = Math.round(Math.random() * 1);
 		const fifthAnswer = Math.round(Math.random() * 1);
-		console.log(
-			firstAnswer,
-			secondAnswer,
-			thirdAnswer,
-			fourthAnswer,
-			fifthAnswer
-		);
 
 		if (colorArr[firstAnswer] !== color) {
 			UserWon = false;

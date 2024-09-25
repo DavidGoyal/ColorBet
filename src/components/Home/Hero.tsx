@@ -1,8 +1,13 @@
-import { PrincessSofia } from "@/app/layout";
 import React from "react";
 import img from "@/assets/HeroBG.png";
 import Image from "next/image";
 import Link from "next/link";
+import { Princess_Sofia } from "next/font/google";
+
+const PrincessSofia = Princess_Sofia({
+	subsets: ["latin"],
+	weight: ["400"],
+});
 
 const Hero = () => {
 	return (

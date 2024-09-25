@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
 	Table,
 	TableBody,
@@ -7,15 +9,39 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import prisma from "@/lib/db";
+import axios from "axios";
+import { useToast } from "@/hooks/use-toast";
 
-const PreviousTransactions = async () => {
-	const transactions = await prisma.transaction.findMany({
-		orderBy: {
-			createdAt: "desc",
-		},
-		take: 10,
-	});
+type Transaction = {
+	transactionID: string;
+	walletAddress: string;
+	betColor: string;
+	won: boolean;
+	id: number;
+};
+
+const PreviousTransactions = () => {
+	const [transactions, setTransactions] = useState<Transaction[]>([]);
+	const { toast } = useToast();
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await axios.get("/api/getTransactions");
+
+				if (response.data.success) {
+					setTransactions(response.data.data);
+				}
+			} catch {
+				return toast({
+					variant: "destructive",
+					title: `Transactions fetching failed`,
+				});
+			}
+		};
+		fetchData();
+	}, [toast]);
+
 	return (
 		<div className="w-full flex flex-col gap-16 p-4 sm:px-20">
 			<h1 className="text-5xl font-bold text-center pt-40 mr-2">

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Princess_Sofia } from "next/font/google";
 import "./globals.css";
 import WalletAdapterProvider from "./WalletAdapterProvider";
 import { Toaster } from "@/components/ui/toaster";
@@ -14,11 +13,6 @@ const geistMono = localFont({
 	src: "./fonts/GeistMonoVF.woff",
 	variable: "--font-geist-mono",
 	weight: "100 900",
-});
-
-export const PrincessSofia = Princess_Sofia({
-	subsets: ["latin"],
-	weight: ["400"],
 });
 
 export const metadata: Metadata = {

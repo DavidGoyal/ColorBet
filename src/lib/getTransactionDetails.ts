@@ -28,7 +28,6 @@ export const getTransactionDetails = async (tx: string) => {
 				isRecent: false,
 			};
 		}
-		console.log(1);
 
 		const instructions = json.result.transaction.message.instructions;
 		const blockTime = json.result.blockTime; // Unix timestamp of the block
@@ -36,8 +35,6 @@ export const getTransactionDetails = async (tx: string) => {
 
 		// Check if the transaction happened less than half a minute ago
 		const isRecent = blockTime && currentTime - blockTime < 30;
-
-		console.log(isRecent);
 
 		if (!isRecent) {
 			return { receiver: null, sender: null, transactionAmount: null };
