@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 			},
 		});
 
-		if (transactions.length == 4) {
+		if (transactions.length == 10) {
 			UserWon = false;
 			outputColor = colorArr[colorArr.findIndex((colors) => colors !== color)];
 		} else {
