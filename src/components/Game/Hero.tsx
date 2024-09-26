@@ -116,6 +116,8 @@ const Hero = () => {
 			setOutcomeColor(outcomeColor);
 			setWinningDialog(true);
 		} catch (error: unknown) {
+			console.log(error);
+
 			if (error instanceof AxiosError) {
 				if (error.message.includes("Insufficient funds")) {
 					return toast({
