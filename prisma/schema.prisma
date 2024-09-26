@@ -18,6 +18,7 @@ model Transaction {
   transactionID String   @unique
   walletAddress String
   betColor      String
+  outcomeColor  String
   won           Boolean
   createdAt     DateTime @default(now())
 }

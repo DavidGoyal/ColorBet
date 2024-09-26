@@ -14,6 +14,8 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import logo from "@/assets/logo.jpg";
 
 const Header = () => {
 	return (
@@ -25,9 +27,15 @@ const Header = () => {
 					</DrawerTrigger>
 					<DrawerContent className="block sm:hidden left-0 right-auto h-full w-[300px] bg-[#121111]">
 						<DrawerHeader>
-							<DrawerTitle className="text-white text-3xl font-bold princess-sofia-regular">
-								Color Trading
-							</DrawerTitle>
+							<div className="flex items-center gap-2 mx-auto">
+								<Avatar>
+									<AvatarImage src={logo.src} className="object-cover" />
+									<AvatarFallback>Color Bet</AvatarFallback>
+								</Avatar>
+								<DrawerTitle className="text-white text-3xl font-bold princess-sofia-regular">
+									Color Bet
+								</DrawerTitle>
+							</div>
 						</DrawerHeader>
 						<DrawerFooter className="flex justify-center items-center gap-4">
 							<DrawerClose asChild>
@@ -45,9 +53,16 @@ const Header = () => {
 						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>
-				<h1 className="text-white text-3xl font-bold princess-sofia-regular hidden sm:block">
-					Color Trading
-				</h1>
+				<div className="h-full gap-2 items-center hidden sm:flex">
+					<Avatar>
+						<AvatarImage src={logo.src} className="object-cover" />
+						<AvatarFallback>Color Bet</AvatarFallback>
+					</Avatar>
+
+					<h1 className="text-white text-3xl font-bold princess-sofia-regular">
+						Color Bet
+					</h1>
+				</div>
 
 				<div className="bg-[#1D1D1D] rounded-full lg:flex justify-between items-center p-4 px-8 gap-12 hidden">
 					<Link href={"#"}>Home</Link>

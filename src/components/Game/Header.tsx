@@ -11,6 +11,8 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import logo from "@/assets/logo.jpg";
 
 const Header = () => {
 	return (
@@ -22,20 +24,28 @@ const Header = () => {
 					</DrawerTrigger>
 					<DrawerContent className="block sm:hidden left-0 right-auto h-full w-[300px] bg-[#121111]">
 						<DrawerHeader>
-							<Link href={"/"}>
+							<Link href={"/"} className="flex items-center gap-2 mx-auto">
+								<Avatar>
+									<AvatarImage src={logo.src} className="object-cover" />
+									<AvatarFallback>Color Bet</AvatarFallback>
+								</Avatar>
 								<DrawerTitle className="text-white text-3xl font-bold princess-sofia-regular">
-									Color Trading
+									Color Bet
 								</DrawerTitle>
 							</Link>
 						</DrawerHeader>
-						<div className="w-[60%] mx-auto">
+						<div className="w-[70%] mx-auto">
 							Balance: <ShowSol />
 						</div>
 					</DrawerContent>
 				</Drawer>
-				<Link href={"/"}>
+				<Link href={"/"} className="sm:flex items-center gap-2 hidden">
+					<Avatar>
+						<AvatarImage src={logo.src} className="object-cover" />
+						<AvatarFallback>Color Bet</AvatarFallback>
+					</Avatar>
 					<h1 className="text-white text-3xl font-bold princess-sofia-regular hidden sm:block">
-						Color Trading
+						Color Bet
 					</h1>
 				</Link>
 

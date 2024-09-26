@@ -18,6 +18,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 const PrincessSofia = Princess_Sofia({
 	subsets: ["latin"],
@@ -30,6 +31,9 @@ const Hero = () => {
 	const [color, setColor] = useState("");
 	const [paying, setPaying] = useState(false);
 	const [solPrice, setSolPrice] = useState(0);
+	const [winningDialog, setWinningDialog] = useState(false);
+	const [won, setWon] = useState("");
+	const [outcomeColor, setOutcomeColor] = useState("");
 
 	const { connection } = useConnection();
 	const wallet = useWallet();
@@ -105,12 +109,12 @@ const Hero = () => {
 			});
 
 			const won = response.data.won;
-			setPaying(false);
+			const outcomeColor = response.data.outcomeColor;
 
-			return toast({
-				variant: won ? "default" : "destructive",
-				title: won ? "Congratulations you have won" : "You have lost",
-			});
+			setPaying(false);
+			setWon(won ? "won" : "lost");
+			setOutcomeColor(outcomeColor);
+			setWinningDialog(true);
 		} catch (error: unknown) {
 			if (error instanceof AxiosError) {
 				if (error.message.includes("Insufficient funds")) {
@@ -146,6 +150,14 @@ const Hero = () => {
 			.catch((err) => console.log(err));
 	}, []);
 
+	useEffect(() => {
+		if (winningDialog) {
+			setTimeout(() => {
+				setWinningDialog(false);
+			}, 10000);
+		}
+	}, [winningDialog]);
+
 	return (
 		<div className="bg-[url('../assets/HeroImage.png')] min-h-screen w-full bg-center bg-auto bg-no-repeat flex justify-center items-center flex-col p-4 gap-16 relative">
 			<h1 className="text-4xl sm:text-6xl font-bold text-white text-center mt-[10rem]">
@@ -156,7 +168,7 @@ const Hero = () => {
 				</span>{" "}
 				Your Color
 			</h1>
-			<div className="flex flex-col md:flex-row gap-16 items-center">
+			<div className="flex flex-wrap gap-16 items-center justify-center">
 				<div className="flex flex-col items-center gap-4">
 					<div
 						className="h-[8rem] w-[12rem] rounded-xl bg-red-600 cursor-pointer"
@@ -164,7 +176,10 @@ const Hero = () => {
 							border: color === "red" ? "4px solid" : "none",
 							borderColor: color === "red" ? "white" : "initial",
 						}}
-						onClick={() => setColor("red")}
+						onClick={() => {
+							setColor("red");
+							setBet("2X");
+						}}
 					/>
 					<p>Red</p>
 				</div>
@@ -175,7 +190,10 @@ const Hero = () => {
 							border: color === "blue" ? "4px solid" : "none",
 							borderColor: color === "blue" ? "white" : "initial",
 						}}
-						onClick={() => setColor("blue")}
+						onClick={() => {
+							setColor("blue");
+							setBet("3X");
+						}}
 					/>
 					<p>Blue</p>
 				</div>
@@ -186,36 +204,37 @@ const Hero = () => {
 							border: color === "purple" ? "4px solid" : "none",
 							borderColor: color === "purple" ? "white" : "initial",
 						}}
-						onClick={() => setColor("purple")}
+						onClick={() => {
+							setColor("purple");
+							setBet("5X");
+						}}
 					/>
 					<p>Purple</p>
+				</div>
+
+				<div className="flex flex-col items-center gap-4">
+					<div
+						className="h-[8rem] w-[12rem] rounded-xl bg-green-600 cursor-pointer"
+						style={{
+							border: color === "green" ? "4px solid" : "none",
+							borderColor: color === "green" ? "white" : "initial",
+						}}
+						onClick={() => {
+							setColor("green");
+							setBet("10X");
+						}}
+					/>
+					<p>Green</p>
 				</div>
 			</div>
 
 			<div className="flex  gap-16 items-center w-[80%] md:w-[30%] justify-between">
-				<select
-					name="Bet"
+				<div
 					id="bet"
-					className="w-[8rem] h-[4rem] rounded-xl bg-gradient-to-r from-[#3B3B2C] to-[#422E2C] flex justify-center items-center border-[2px] border-white text-center"
-					value={bet}
-					onChange={(e) => setBet(e.target.value)}
+					className="w-[8rem] h-[4rem] rounded-xl bg-gradient-to-r from-[#3B3B2C] to-[#422E2C] flex justify-center items-center border-[2px] border-white text-center text-white"
 				>
-					<option value="2X" className="text-black">
-						2X
-					</option>
-					<option value="3X" className="text-black">
-						3X
-					</option>
-					<option value="5X" className="text-black">
-						5X
-					</option>
-					<option value="7X" className="text-black">
-						7X
-					</option>
-					<option value="10X" className="text-black">
-						10X
-					</option>
-				</select>
+					{`${bet}`}
+				</div>
 
 				<input
 					className="w-[8rem] h-[4rem] rounded-xl bg-gradient-to-r from-[#3B3B2C] to-[#422E2C] flex justify-center items-center border-[2px] border-white text-center"
@@ -241,6 +260,32 @@ const Hero = () => {
 						<DialogDescription className="flex justify-center items-center">
 							{/* Use relative units for the loader */}
 							<div className="loader border-t-transparent border-white border-4 rounded-full h-[15vw] w-[15vw] max-h-[200px] max-w-[200px] md:h-[10vw] md:w-[10vw] animate-spin" />
+						</DialogDescription>
+					</DialogHeader>
+				</DialogContent>
+			</Dialog>
+
+			<Dialog open={winningDialog}>
+				<DialogTrigger asChild></DialogTrigger>
+				<DialogContent className="bg-black h-[40%] w-[80%] md:w-[40%] rounded-xl">
+					<DialogHeader className="flex flex-col justify-between items-center">
+						<DialogTitle>Transaction Result</DialogTitle>
+						<DialogDescription className="flex justify-center items-center">
+							{won === "won" && (
+								<div className="flex flex-col items-center gap-4">
+									<p className="text-2xl font-bold text-white">
+										Congratulations you have won! The color you won was{" "}
+										{outcomeColor}
+									</p>
+								</div>
+							)}
+							{won === "lost" && (
+								<div className="flex flex-col items-center gap-4">
+									<p className="text-2xl font-bold text-white">
+										You have lost. The outcome color was {outcomeColor}
+									</p>
+								</div>
+							)}
 						</DialogDescription>
 					</DialogHeader>
 				</DialogContent>

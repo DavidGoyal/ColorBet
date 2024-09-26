@@ -16,6 +16,7 @@ type Transaction = {
 	transactionID: string;
 	walletAddress: string;
 	betColor: string;
+	outcomeColor: string;
 	won: boolean;
 	id: number;
 };
@@ -57,7 +58,7 @@ const PreviousTransactions = () => {
 							<TableHead className="text-white font-semibold text-xl text-center">
 								Record Number
 							</TableHead>
-							<TableHead className="text-white font-semibold text-xl text-center">
+							<TableHead className="text-white font-semibold text-xl text-center w-[100px] text-wrap">
 								Transaction ID
 							</TableHead>
 							<TableHead className="text-white font-semibold text-xl text-center">
@@ -65,6 +66,9 @@ const PreviousTransactions = () => {
 							</TableHead>
 							<TableHead className="text-white font-semibold text-xl text-center">
 								Color Choosen
+							</TableHead>
+							<TableHead className="text-white font-semibold text-xl text-center">
+								Outcome Color
 							</TableHead>
 							<TableHead className="text-white font-semibold text-xl text-center">
 								Outcome
@@ -77,17 +81,23 @@ const PreviousTransactions = () => {
 								<TableCell className="font-medium text-center">
 									{transaction.id}
 								</TableCell>
-								<TableCell className="text-center">
+								<TableCell className="text-center w-[100px] text-wrap">
 									{transaction.transactionID}
 								</TableCell>
 								<TableCell className="text-center">
 									{transaction.walletAddress}
 								</TableCell>
-								<TableCell className="flex justify-center items-center">
+								<TableCell className="flex justify-center">
 									<div
 										className="h-[1rem] w-[1rem] rounded-full"
 										style={{ background: transaction.betColor }}
-									></div>
+									/>
+								</TableCell>
+								<TableCell>
+									<div
+										className="h-[1rem] w-[1rem] rounded-full mx-auto"
+										style={{ background: transaction.outcomeColor }}
+									/>
 								</TableCell>
 								<TableCell className="text-center">
 									{transaction.won ? "Won" : "Lost"}

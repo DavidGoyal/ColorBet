@@ -51,7 +51,7 @@ const FAQ = () => {
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="item-4">
-					<AccordionTrigger className="text-2xl">
+					<AccordionTrigger className="text-2xl text-left">
 						Can I view my betting history?
 					</AccordionTrigger>
 					<AccordionContent>

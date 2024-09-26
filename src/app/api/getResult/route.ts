@@ -45,39 +45,260 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
-		const colorArr = ["red", "blue", "purple"];
-
 		let UserWon = false;
+		let outputColor;
 
-		const firstAnswer = Math.round(Math.random() * 2);
-		const secondAnswer = Math.round(Math.random() * 1);
-		const thirdAnswer = Math.round(Math.random() * 1);
-		const fourthAnswer = Math.round(Math.random() * 1);
-		const fifthAnswer = Math.round(Math.random() * 1);
+		const colorArr = ["red", "blue", "purple", "green"];
 
-		if (colorArr[firstAnswer] !== color) {
+		const transactions = await prisma.transaction.findMany({
+			where: {
+				walletAddress: wallet,
+				createdAt: {
+					gte: new Date(Date.now() - 1000 * 60 * 30),
+				},
+				won: true,
+			},
+		});
+
+		if (transactions.length == 4) {
 			UserWon = false;
-		} else if (bet === "2X" && secondAnswer === 0) {
-			UserWon = true;
-		} else if (secondAnswer === 0) {
-		} else if (bet === "3X") {
-			if (thirdAnswer === 0) {
-				UserWon = true;
-			}
-		} else if (bet === "5X") {
-			if (thirdAnswer === 0 || fourthAnswer === 1) {
+			outputColor = colorArr[colorArr.findIndex((colors) => colors !== color)];
+		} else {
+			if (
+				amount <= Number((1 / solPrice).toPrecision(4)) * 3 &&
+				(bet === "2X" || bet === "3X")
+			) {
+				const firstAnswer = Math.round(Math.random() * 1);
+
+				if (firstAnswer === 0) {
+					UserWon = true;
+					outputColor = color;
+				} else {
+					UserWon = false;
+					outputColor =
+						colorArr[colorArr.findIndex((colors) => colors !== color)];
+				}
+			} else if (amount <= Number((1 / solPrice).toPrecision(4)) * 5) {
+				const firstAnswer = Math.round(Math.random() * 3);
+				const index = colorArr.findIndex((colors) => colors === color);
+
+				if (firstAnswer === index) {
+					UserWon = true;
+					outputColor = color;
+				} else {
+					UserWon = false;
+					outputColor = colorArr[firstAnswer];
+				}
+			} else if (amount <= Number((1 / solPrice).toPrecision(4)) * 10) {
+				const firstAnswer = Math.round(Math.random() * 1);
+				const secondAnswer = Math.round(Math.random() * 1);
+				const thirdAnswer = Math.round(Math.random() * 1);
+
+				const index = colorArr.findIndex((colors) => colors === color);
+
+				if (index === 0) {
+					if (firstAnswer === 0) {
+						UserWon = true;
+						outputColor = color;
+					} else {
+						UserWon = false;
+						if (secondAnswer === 0) {
+							outputColor = colorArr[1];
+						} else if (secondAnswer === 1 && thirdAnswer === 0) {
+							outputColor = colorArr[2];
+						} else {
+							outputColor = colorArr[3];
+						}
+					}
+				} else if (index === 1) {
+					if (firstAnswer === 1 && secondAnswer === 0) {
+						UserWon = true;
+						outputColor = color;
+					} else {
+						UserWon = false;
+						if (firstAnswer === 0) {
+							outputColor = colorArr[0];
+						} else if (secondAnswer === 1 && thirdAnswer === 0) {
+							outputColor = colorArr[2];
+						} else {
+							outputColor = colorArr[3];
+						}
+					}
+				} else if (index === 2) {
+					if (firstAnswer === 1 && secondAnswer === 1 && thirdAnswer === 0) {
+						UserWon = true;
+						outputColor = color;
+					} else {
+						UserWon = false;
+						if (firstAnswer === 0) {
+							outputColor = colorArr[0];
+						} else if (firstAnswer === 1 && secondAnswer === 0) {
+							outputColor = colorArr[1];
+						} else {
+							outputColor = colorArr[3];
+						}
+					}
+				} else if (index === 3) {
+					if (firstAnswer === 1 && secondAnswer === 1 && thirdAnswer === 1) {
+						UserWon = true;
+						outputColor = color;
+					} else {
+						UserWon = false;
+						if (firstAnswer === 0) {
+							outputColor = colorArr[0];
+						} else if (firstAnswer === 1 && secondAnswer === 0) {
+							outputColor = colorArr[1];
+						} else {
+							outputColor = colorArr[2];
+						}
+					}
+				}
+			} else if (
+				amount > Number((1 / solPrice).toPrecision(4)) * 10 &&
+				amount <= Number((1 / solPrice).toPrecision(4)) * 20
+			) {
+				const initialCheck = Math.round(Math.random() * 1);
+				const firstAnswer = Math.round(Math.random() * 1);
+				const secondAnswer = Math.round(Math.random() * 1);
+				const thirdAnswer = Math.round(Math.random() * 1);
+
+				const index = colorArr.findIndex((colors) => colors === color);
+
+				if (initialCheck === 0) {
+					UserWon = false;
+					outputColor =
+						colorArr[colorArr.findIndex((colors) => colors !== color)];
+				} else {
+					if (index === 0) {
+						if (firstAnswer === 0) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (secondAnswer === 0) {
+								outputColor = colorArr[1];
+							} else if (secondAnswer === 1 && thirdAnswer === 0) {
+								outputColor = colorArr[2];
+							} else {
+								outputColor = colorArr[3];
+							}
+						}
+					} else if (index === 1) {
+						if (firstAnswer === 1 && secondAnswer === 0) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (firstAnswer === 0) {
+								outputColor = colorArr[0];
+							} else if (secondAnswer === 1 && thirdAnswer === 0) {
+								outputColor = colorArr[2];
+							} else {
+								outputColor = colorArr[3];
+							}
+						}
+					} else if (index === 2) {
+						if (firstAnswer === 1 && secondAnswer === 1 && thirdAnswer === 0) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (firstAnswer === 0) {
+								outputColor = colorArr[0];
+							} else if (firstAnswer === 1 && secondAnswer === 0) {
+								outputColor = colorArr[1];
+							} else {
+								outputColor = colorArr[3];
+							}
+						}
+					} else if (index === 3) {
+						if (firstAnswer === 1 && secondAnswer === 1 && thirdAnswer === 1) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (firstAnswer === 0) {
+								outputColor = colorArr[0];
+							} else if (firstAnswer === 1 && secondAnswer === 0) {
+								outputColor = colorArr[1];
+							} else {
+								outputColor = colorArr[2];
+							}
+						}
+					}
+				}
 			} else {
-				UserWon = true;
-			}
-		} else if (bet === "7X") {
-			if (thirdAnswer === 0 || fourthAnswer === 0 || fifthAnswer === 1) {
-			} else {
-				UserWon = true;
-			}
-		} else if (bet === "10X") {
-			if (thirdAnswer === 0 || fourthAnswer === 0 || fifthAnswer === 0) {
-			} else {
-				UserWon = true;
+				const initialCheck = Math.round(Math.random() * 1);
+				const secondCheck = Math.round(Math.random() * 1);
+				const firstAnswer = Math.round(Math.random() * 1);
+				const secondAnswer = Math.round(Math.random() * 1);
+				const thirdAnswer = Math.round(Math.random() * 1);
+
+				const index = colorArr.findIndex((colors) => colors === color);
+
+				if (initialCheck === 0 || secondCheck === 0) {
+					UserWon = false;
+					outputColor =
+						colorArr[colorArr.findIndex((colors) => colors !== color)];
+				} else {
+					if (index === 0) {
+						if (firstAnswer === 0) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (secondAnswer === 0) {
+								outputColor = colorArr[1];
+							} else if (secondAnswer === 1 && thirdAnswer === 0) {
+								outputColor = colorArr[2];
+							} else {
+								outputColor = colorArr[3];
+							}
+						}
+					} else if (index === 1) {
+						if (firstAnswer === 1 && secondAnswer === 0) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (firstAnswer === 0) {
+								outputColor = colorArr[0];
+							} else if (secondAnswer === 1 && thirdAnswer === 0) {
+								outputColor = colorArr[2];
+							} else {
+								outputColor = colorArr[3];
+							}
+						}
+					} else if (index === 2) {
+						if (firstAnswer === 1 && secondAnswer === 1 && thirdAnswer === 0) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (firstAnswer === 0) {
+								outputColor = colorArr[0];
+							} else if (firstAnswer === 1 && secondAnswer === 0) {
+								outputColor = colorArr[1];
+							} else {
+								outputColor = colorArr[3];
+							}
+						}
+					} else if (index === 3) {
+						if (firstAnswer === 1 && secondAnswer === 1 && thirdAnswer === 1) {
+							UserWon = true;
+							outputColor = color;
+						} else {
+							UserWon = false;
+							if (firstAnswer === 0) {
+								outputColor = colorArr[0];
+							} else if (firstAnswer === 1 && secondAnswer === 0) {
+								outputColor = colorArr[1];
+							} else {
+								outputColor = colorArr[2];
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -87,8 +308,10 @@ export async function POST(req: NextRequest) {
 				walletAddress: wallet,
 				betColor: color,
 				won: UserWon,
+				outcomeColor: outputColor,
 			},
 		});
+
 		if (UserWon) {
 			const fromKeypair = Keypair.fromSecretKey(
 				bs58.decode(process.env.PRIVATE_KEY as string)
@@ -112,11 +335,13 @@ export async function POST(req: NextRequest) {
 			return Response.json({
 				success: true,
 				won: true,
+				outcomeColor: outputColor,
 			});
 		} else {
 			return Response.json({
 				success: true,
 				won: false,
+				outcomeColor: outputColor,
 			});
 		}
 	} catch (error: unknown) {
