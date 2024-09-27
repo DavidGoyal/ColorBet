@@ -4,6 +4,7 @@ import {
 	Connection,
 	Keypair,
 	LAMPORTS_PER_SOL,
+	PublicKey,
 	sendAndConfirmTransaction,
 	SystemProgram,
 	Transaction,
@@ -13,8 +14,22 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
 	try {
-		const { color, bet, amount, wallet, signature, solPrice } =
-			await req.json();
+		const {
+			color,
+			bet,
+			amount,
+			wallet,
+			signature,
+			solPrice,
+		}: {
+			color: string;
+			bet: string;
+			amount: string;
+			wallet: string;
+			signature: string;
+			solPrice: number;
+		} = await req.json();
+		await req.json();
 
 		if (!color || !bet || !amount || !wallet || !signature || !solPrice) {
 			return Response.json(
@@ -65,7 +80,7 @@ export async function POST(req: NextRequest) {
 			outputColor = colorArr[colorArr.findIndex((colors) => colors !== color)];
 		} else {
 			if (
-				amount <= Number((1 / solPrice).toPrecision(4)) * 3 &&
+				transactionAmount <= Number(((1 * 3) / solPrice).toPrecision(4)) &&
 				(bet === "2X" || bet === "3X")
 			) {
 				const firstAnswer = Math.round(Math.random() * 1);
@@ -78,7 +93,9 @@ export async function POST(req: NextRequest) {
 					outputColor =
 						colorArr[colorArr.findIndex((colors) => colors !== color)];
 				}
-			} else if (amount <= Number((1 / solPrice).toPrecision(4)) * 5) {
+			} else if (
+				transactionAmount <= Number(((1 * 5) / solPrice).toPrecision(4))
+			) {
 				const firstAnswer = Math.round(Math.random() * 3);
 				const index = colorArr.findIndex((colors) => colors === color);
 
@@ -89,7 +106,9 @@ export async function POST(req: NextRequest) {
 					UserWon = false;
 					outputColor = colorArr[firstAnswer];
 				}
-			} else if (amount <= Number((1 / solPrice).toPrecision(4)) * 10) {
+			} else if (
+				transactionAmount <= Number(((1 * 10) / solPrice).toPrecision(4))
+			) {
 				const firstAnswer = Math.round(Math.random() * 1);
 				const secondAnswer = Math.round(Math.random() * 1);
 				const thirdAnswer = Math.round(Math.random() * 1);
@@ -154,8 +173,8 @@ export async function POST(req: NextRequest) {
 					}
 				}
 			} else if (
-				amount > Number((1 / solPrice).toPrecision(4)) * 10 &&
-				amount <= Number((1 / solPrice).toPrecision(4)) * 20
+				transactionAmount > Number(((1 * 10) / solPrice).toPrecision(4)) &&
+				transactionAmount <= Number(((1 * 20) / solPrice).toPrecision(4))
 			) {
 				const initialCheck = Math.round(Math.random() * 1);
 				const firstAnswer = Math.round(Math.random() * 1);
@@ -308,7 +327,7 @@ export async function POST(req: NextRequest) {
 				walletAddress: wallet,
 				betColor: color,
 				won: UserWon,
-				outcomeColor: outputColor,
+				outcomeColor: outputColor!,
 			},
 		});
 
@@ -323,7 +342,7 @@ export async function POST(req: NextRequest) {
 			const transferTransaction = new Transaction().add(
 				SystemProgram.transfer({
 					fromPubkey: fromKeypair.publicKey,
-					toPubkey: wallet,
+					toPubkey: new PublicKey(wallet),
 					lamports:
 						Number(amount) * Number(bet.split("X")[0]) * LAMPORTS_PER_SOL,
 				})
