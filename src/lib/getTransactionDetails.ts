@@ -9,7 +9,6 @@ export const getTransactionDetails = async (tx: string) => {
 	};
 
 	try {
-		// Fetch transaction details
 		const response = await fetch(process.env.NEXT_PUBLIC_RPC_URL as string, {
 			method: "POST",
 			body: JSON.stringify(data),
@@ -30,10 +29,9 @@ export const getTransactionDetails = async (tx: string) => {
 		}
 
 		const instructions = json.result.transaction.message.instructions;
-		const blockTime = json.result.blockTime; // Unix timestamp of the block
-		const currentTime = Math.floor(Date.now() / 1000); // Current Unix timestamp in seconds
+		const blockTime = json.result.blockTime;
+		const currentTime = Math.floor(Date.now() / 1000);
 
-		// Check if the transaction happened less than half a minute ago
 		const isRecent = blockTime && currentTime - blockTime < 30;
 
 		if (!isRecent) {
