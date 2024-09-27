@@ -29,7 +29,6 @@ export async function POST(req: NextRequest) {
 			signature: string;
 			solPrice: number;
 		} = await req.json();
-		await req.json();
 
 		if (!color || !bet || !amount || !wallet || !signature || !solPrice) {
 			return Response.json(
