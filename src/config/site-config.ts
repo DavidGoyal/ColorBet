@@ -7,7 +7,7 @@ const DESCRIPTION =
 const PREVIEW_IMAGE_URL = "https://app.100xdevs/banner-img.jpeg";
 const ALT_TITLE =
 	"Color Bet: Experience the Thrill of Color Betting on the Solana Blockchain";
-const BASE_URL = "https://colorbet.in";
+const BASE_URL = "https://www.colorbet.io";
 
 export const siteConfig: Metadata = {
 	title: TITLE,

@@ -26,9 +26,9 @@ const FAQ = () => {
 						How do I place a bet?
 					</AccordionTrigger>
 					<AccordionContent>
-						Simply select one of the three colors, enter your desired bet
-						amount, choose a multiplier, and click the bet button. Your
-						transaction will be processed through your Solana wallet.
+						Simply select one of the four colors, enter your desired bet amount
+						and click the bet button. Your transaction will be processed through
+						your Solana wallet.
 					</AccordionContent>
 				</AccordionItem>
 				<AccordionItem value="item-2">

@@ -54,13 +54,13 @@ export async function POST(req: NextRequest) {
 			where: {
 				walletAddress: wallet,
 				createdAt: {
-					gte: new Date(Date.now() - 1000 * 60 * 30),
+					gte: new Date(Date.now() - 1000 * 60 * 10),
 				},
 				won: true,
 			},
 		});
 
-		if (transactions.length == 10) {
+		if (transactions.length == 3) {
 			UserWon = false;
 			outputColor = colorArr[colorArr.findIndex((colors) => colors !== color)];
 		} else {

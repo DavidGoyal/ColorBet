@@ -19,10 +19,23 @@ import {
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { DialogTrigger } from "@radix-ui/react-dialog";
+import img1 from "@/assets/winImage.png";
+import Image from "next/image";
+import localFont from "next/font/local";
 
 const PrincessSofia = Princess_Sofia({
 	subsets: ["latin"],
 	weight: ["400"],
+});
+
+const porterSans = localFont({
+	src: [
+		{
+			path: "../../app/fonts/PorterSansBlock-Regular.ttf",
+		},
+	],
+	variable: "--font-porter-sans",
+	weight: "100 900",
 });
 
 const Hero = () => {
@@ -50,6 +63,14 @@ const Hero = () => {
 			return toast({
 				variant: "destructive",
 				title: `Amount must be greater than ${(1 / solPrice)
+					.toPrecision(4)
+					.toString()} SOL`,
+			});
+		}
+		if (amount > ((1 * 300) / solPrice).toPrecision(4).toString()) {
+			return toast({
+				variant: "destructive",
+				title: `Amount must be less than than ${((1 * 300) / solPrice)
 					.toPrecision(4)
 					.toString()} SOL`,
 			});
@@ -116,8 +137,6 @@ const Hero = () => {
 			setOutcomeColor(outcomeColor);
 			setWinningDialog(true);
 		} catch (error: unknown) {
-			console.log(error);
-
 			if (error instanceof AxiosError) {
 				if (error.message.includes("Insufficient funds")) {
 					return toast({
@@ -256,8 +275,8 @@ const Hero = () => {
 			</button>
 
 			<Dialog open={paying}>
-				<DialogContent className="bg-black h-[40%] w-[80%] md:w-[40%] rounded-xl">
-					<DialogHeader className="flex flex-col justify-between items-center">
+				<DialogContent className="bg-black h-[27%] w-[80%] md:w-[40%] md:h-[40%] rounded-xl">
+					<DialogHeader className="flex flex-col items-center gap-[20%]">
 						<DialogTitle>Processing Transaction</DialogTitle>
 						<DialogDescription className="flex justify-center items-center">
 							{/* Use relative units for the loader */}
@@ -269,23 +288,51 @@ const Hero = () => {
 
 			<Dialog open={winningDialog}>
 				<DialogTrigger asChild></DialogTrigger>
-				<DialogContent className="bg-black h-[40%] w-[80%] md:w-[40%] rounded-xl">
-					<DialogHeader className="flex flex-col justify-between items-center">
-						<DialogTitle>Transaction Result</DialogTitle>
-						<DialogDescription className="flex justify-center items-center">
+				<DialogContent
+					className="min-h-[60%] w-[80%] md:w-[70%] rounded-xl border-[1px] bg-gradient-to-r from-[#1B1B1B] to-[#040303]"
+					style={{ borderColor: won === "won" ? "#F82EEA" : "#F82E2E" }}
+				>
+					<DialogHeader className="h-full w-full">
+						<DialogDescription className="h-full w-full">
 							{won === "won" && (
-								<div className="flex flex-col items-center gap-4">
-									<p className="text-2xl font-bold text-white">
-										Congratulations you have won! The color you won was{" "}
-										{outcomeColor}
+								<div className="h-full w-full flex flex-col items-center gap-4">
+									<div className="h-[60%] w-[65%] sm:w-[40%] relative">
+										<Image
+											src={img1}
+											alt="winImage"
+											className="h-[90%] w-[100%]"
+										/>
+										<p className="absolute bottom-[25%] left-[36%] text-xs font-bold winningWord hidden sm:block">
+											Woo Hoo
+										</p>
+										<p className="absolute bottom-[15%] left-[28%] text-xl font-bold winningWord hidden sm:block">
+											Woo Hoo
+										</p>
+										<p className="absolute bottom-[5%] left-[22%] text-2xl font-bold winningWord hidden sm:block">
+											Woo Hoo
+										</p>
+									</div>
+									<p
+										className={`font-bold text-white text-5xl ${porterSans.className} winningWord`}
+									>
+										YOU WON <br /> THE BET!!
 									</p>
+									<p className="text-white font-md">Next Bet in 10s...</p>
 								</div>
 							)}
 							{won === "lost" && (
-								<div className="flex flex-col items-center gap-4">
-									<p className="text-2xl font-bold text-white">
-										You have lost. The outcome color was {outcomeColor}
+								<div className="h-full w-full flex flex-col items-center justify-between p-8">
+									<p>Oh No !!</p>
+									<p className="text-xl">Luck wasn&apos;t with you this time</p>
+									<p className="text-xl">
+										The outcome color was {outcomeColor}
 									</p>
+									<p
+										className={`font-bold text-white text-5xl ${porterSans.className} lostBet`}
+									>
+										YOU LOST <br /> THE BET!!
+									</p>
+									<p className="text-white font-md">Next Bet in 10s...</p>
 								</div>
 							)}
 						</DialogDescription>

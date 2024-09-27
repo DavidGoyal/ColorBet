@@ -42,6 +42,20 @@ body {
 	background-clip: text;
 }
 
+.winningWord {
+	background: linear-gradient(to right, #ffffff 0%, #f82eea 100%);
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+}
+
+.lostBet {
+	background: linear-gradient(to right, #ffffff 0%, #f82e2e 100%);
+	-webkit-text-fill-color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
+}
+
 .features-card {
 	background: linear-gradient(to right, #000000 0%, #53546c 500%);
 }

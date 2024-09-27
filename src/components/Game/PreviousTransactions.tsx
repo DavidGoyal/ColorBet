@@ -81,11 +81,29 @@ const PreviousTransactions = () => {
 								<TableCell className="font-medium text-center">
 									{transaction.id}
 								</TableCell>
-								<TableCell className="text-center w-[100px] text-wrap">
-									{transaction.transactionID}
+								<TableCell
+									className="text-center text-wrap cursor-pointer"
+									onClick={() => {
+										navigator.clipboard.writeText(transaction.transactionID);
+										return toast({
+											variant: "destructive",
+											title: "Transaction ID copied to clipboard",
+										});
+									}}
+								>
+									{transaction.transactionID.slice(0, 17)}...
 								</TableCell>
-								<TableCell className="text-center">
-									{transaction.walletAddress}
+								<TableCell
+									className="text-center text-wrap cursor-pointer"
+									onClick={() => {
+										navigator.clipboard.writeText(transaction.transactionID);
+										return toast({
+											variant: "destructive",
+											title: "Wallet Address copied to clipboard",
+										});
+									}}
+								>
+									{transaction.walletAddress.slice(0, 15)}...
 								</TableCell>
 								<TableCell className="flex justify-center">
 									<div
