@@ -16,7 +16,7 @@ const Terms = () => {
 			</Link>
 			<br />
 			<h2 className="text-white text-3xl font-bold">Terms and Conditions</h2>
-			<p>Last updated: September 30, 2024</p>
+			<p>Last updated: September 29, 2024</p>
 			<p>
 				Please read these terms and conditions carefully before using Our
 				Service.
