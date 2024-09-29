@@ -4,7 +4,8 @@ const TITLE = "Color Bet - A Fun Betting Experience";
 const DESCRIPTION =
 	"Join Color Bet and test your luck by betting on colors! Engage in thrilling gameplay and enjoy the excitement.";
 
-const PREVIEW_IMAGE_URL = "https://app.100xdevs/banner-img.jpeg";
+const PREVIEW_IMAGE_URL =
+	"https://res.cloudinary.com/dlu7jj0qk/image/upload/logo_qeb45e.png";
 const ALT_TITLE =
 	"Color Bet: Experience the Thrill of Color Betting on the Solana Blockchain";
 const BASE_URL = "https://www.colorbet.io";

@@ -7,7 +7,6 @@ import {
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import React, { useMemo } from "react";
 
-// Use require instead of import since order matters
 import "@solana/wallet-adapter-react-ui/styles.css";
 
 const WalletAdapterProvider = ({ children }: { children: React.ReactNode }) => {

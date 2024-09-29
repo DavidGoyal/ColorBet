@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/drawer";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 const Header = () => {
 	return (
@@ -39,7 +39,7 @@ const Header = () => {
 						</div>
 					</DrawerContent>
 				</Drawer>
-				<Link href={"/"} className="sm:flex items-center gap-2 hidden">
+				<Link href={"/"} className="sm:flex items-center hidden">
 					<Avatar>
 						<AvatarImage src={logo.src} className="object-cover" />
 						<AvatarFallback>Color Bet</AvatarFallback>

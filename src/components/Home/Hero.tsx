@@ -1,8 +1,8 @@
 import React from "react";
 import img from "@/assets/HeroBG.png";
 import Image from "next/image";
-import Link from "next/link";
 import { Princess_Sofia } from "next/font/google";
+import GetStarted from "../GetStarted";
 
 const PrincessSofia = Princess_Sofia({
 	subsets: ["latin"],
@@ -25,12 +25,7 @@ const Hero = () => {
 				<br /> Fast, secure, and powered by Solana—bet smart and win big.
 				<br /> Select your color and let the game begin!
 			</p>
-			<Link
-				href={"/game"}
-				className="bg-white text-black px-4 py-3 rounded-lg font-semibold"
-			>
-				Get Started <span>→</span>
-			</Link>
+			<GetStarted />
 			<Image
 				src={img}
 				alt=""

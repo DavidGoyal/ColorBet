@@ -5,7 +5,7 @@ import React from "react";
 
 const page = () => {
 	return (
-		<div className="min-h-screen w-screen max-w-[100%]">
+		<div className="min-h-screen w-screen max-w-[100%] bg-[#0a0a0a]">
 			<Header />
 			<Hero />
 			<PreviousTransactions />

@@ -15,7 +15,7 @@ import {
 	DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import logo from "@/assets/logo.jpg";
+import logo from "@/assets/logo.png";
 
 const Header = () => {
 	return (
@@ -27,7 +27,7 @@ const Header = () => {
 					</DrawerTrigger>
 					<DrawerContent className="block sm:hidden left-0 right-auto h-full w-[300px] bg-[#121111]">
 						<DrawerHeader>
-							<div className="flex items-center gap-2 mx-auto">
+							<div className="flex items-center gap-0 mx-auto">
 								<Avatar>
 									<AvatarImage src={logo.src} className="object-cover" />
 									<AvatarFallback>Color Bet</AvatarFallback>
@@ -53,7 +53,7 @@ const Header = () => {
 						</DrawerFooter>
 					</DrawerContent>
 				</Drawer>
-				<div className="h-full gap-2 items-center hidden sm:flex">
+				<div className="h-full items-center hidden sm:flex">
 					<Avatar>
 						<AvatarImage src={logo.src} className="object-cover" />
 						<AvatarFallback>Color Bet</AvatarFallback>

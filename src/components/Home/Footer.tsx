@@ -1,14 +1,19 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
 	return (
 		<div
 			id="footer"
-			className="footer min-h-[6rem] w-full flex flex-col sm:flex-row items-center justify-center gap-14 p-8"
+			className="footer min-h-[6rem] w-full flex flex-col sm:flex-row items-center justify-center gap-16 sm:gap-24 p-8"
 		>
 			<p className="text-xl font-bold text-white text-center">
 				© 2024 Color Trading, Inc. All rights reserved.
 			</p>
+
+			<Link href="/terms" className="text-md font-bold text-white text-center">
+				Terms Of Use
+			</Link>
 
 			<div className="flex flex-row gap-10">
 				<a
