@@ -331,6 +331,8 @@ export async function POST(req: NextRequest) {
 		});
 
 		if (UserWon) {
+			const MAX_RETRIES = 5;
+			const RETRY_DELAY = 2000;
 			const fromKeypair = Keypair.fromSecretKey(
 				bs58.decode(process.env.PRIVATE_KEY as string)
 			);
@@ -346,15 +348,28 @@ export async function POST(req: NextRequest) {
 						Number(amount) * Number(bet.split("X")[0]) * LAMPORTS_PER_SOL,
 				})
 			);
-			await sendAndConfirmTransaction(connection, transferTransaction, [
-				fromKeypair,
-			]);
 
-			return Response.json({
-				success: true,
-				won: true,
-				outcomeColor: outputColor,
-			});
+			let attempts = 0;
+			let transactionSuccess = false;
+
+			while (attempts < MAX_RETRIES && !transactionSuccess) {
+				try {
+					await sendAndConfirmTransaction(connection, transferTransaction, [
+						fromKeypair,
+					]);
+					transactionSuccess = true;
+					return Response.json({
+						success: true,
+						won: true,
+						outcomeColor: outputColor,
+					});
+				} catch {
+					attempts++;
+					if (attempts < MAX_RETRIES) {
+						await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY)); // Wait before retrying
+					}
+				}
+			}
 		} else {
 			return Response.json({
 				success: true,
