@@ -9,8 +9,8 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
-import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { getTransactions } from "@/app/action/getTransactions";
 
 type Transaction = {
 	transactionID: string;
@@ -21,8 +21,6 @@ type Transaction = {
 	id: number;
 };
 
-export const dynamic = "force-dynamic";
-
 const PreviousTransactions = () => {
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
 	const { toast } = useToast();
@@ -30,11 +28,9 @@ const PreviousTransactions = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await axios.get("/api/getTransactions");
+				const transactions = await getTransactions();
 
-				if (response.data.success) {
-					setTransactions(response.data.data);
-				}
+				setTransactions(transactions);
 			} catch {
 				return toast({
 					variant: "destructive",

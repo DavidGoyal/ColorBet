@@ -10,6 +10,7 @@ import {
 	Transaction,
 } from "@solana/web3.js";
 import bs58 from "bs58";
+import { revalidatePath } from "next/cache";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -418,5 +419,7 @@ export async function POST(req: NextRequest) {
 			},
 			{ status: 500 }
 		);
+	} finally {
+		revalidatePath("/game");
 	}
 }
