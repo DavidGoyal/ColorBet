@@ -330,6 +330,38 @@ export async function POST(req: NextRequest) {
 			},
 		});
 
+		let user = await prisma.user.findFirst({
+			where: {
+				walletAddress: wallet,
+			},
+		});
+
+		if (!user) {
+			user = await prisma.user.create({
+				data: {
+					walletAddress: wallet,
+				},
+			});
+		}
+
+		const addPoints = Math.floor(
+			(user.amount + Number(transactionAmount * solPrice)) / 10
+		);
+		if (addPoints) {
+			await prisma.user.update({
+				data: {
+					amount:
+						Number(user.amount) +
+						Number(transactionAmount * solPrice) -
+						addPoints * 10,
+					points: user.points + addPoints * 4,
+				},
+				where: {
+					walletAddress: wallet,
+				},
+			});
+		}
+
 		if (UserWon) {
 			const MAX_RETRIES = 5;
 			const RETRY_DELAY = 2000;

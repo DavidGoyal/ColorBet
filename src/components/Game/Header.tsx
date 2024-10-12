@@ -1,7 +1,6 @@
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { MenuIcon } from "lucide-react";
 import ShowSol from "../ShowSol";
-import WalletButton from "../WalletButton";
 import React from "react";
 import {
 	Drawer,
@@ -13,6 +12,7 @@ import {
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import logo from "@/assets/logo.png";
+import ShowPoints from "../ShowPoints";
 
 const Header = () => {
 	return (
@@ -34,8 +34,8 @@ const Header = () => {
 								</DrawerTitle>
 							</Link>
 						</DrawerHeader>
-						<div className="w-[70%] mx-auto">
-							Balance: <ShowSol />
+						<div className="w-[50%] mx-auto">
+							Points: <ShowPoints />
 						</div>
 					</DrawerContent>
 				</Drawer>
@@ -51,9 +51,9 @@ const Header = () => {
 
 				<div className="h-full flex gap-8 items-center">
 					<div className="sm:block hidden">
-						<ShowSol />
+						<ShowPoints />
 					</div>
-					<WalletButton />
+					<ShowSol />
 				</div>
 			</div>
 		</div>

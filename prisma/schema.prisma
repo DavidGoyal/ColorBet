@@ -22,3 +22,9 @@ model Transaction {
   won           Boolean
   createdAt     DateTime @default(now())
 }
+
+model User {
+  walletAddress String @id
+  amount        Int    @default(0)
+  points        Int    @default(0)
+}
