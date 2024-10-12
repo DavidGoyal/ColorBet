@@ -34,7 +34,7 @@ const Header = () => {
 								</DrawerTitle>
 							</Link>
 						</DrawerHeader>
-						<div className="w-[50%] mx-auto">
+						<div className="w-[50%] mx-auto flex items-center gap-2">
 							Points: <ShowPoints />
 						</div>
 					</DrawerContent>
