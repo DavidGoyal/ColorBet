@@ -22,6 +22,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import img1 from "@/assets/winImage.png";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { useRouter } from "next/navigation";
 
 const PrincessSofia = Princess_Sofia({
 	subsets: ["latin"],
@@ -51,6 +52,7 @@ const Hero = () => {
 	const { connection } = useConnection();
 	const wallet = useWallet();
 	const { toast } = useToast();
+	const router = useRouter();
 
 	const handleClick = async () => {
 		if (!color) {
@@ -159,6 +161,7 @@ const Hero = () => {
 			setPaying(false);
 			setColor("");
 			setAmount("");
+			router.refresh();
 		}
 	};
 
