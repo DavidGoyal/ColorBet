@@ -161,7 +161,6 @@ const Hero = () => {
 			setPaying(false);
 			setColor("");
 			setAmount("");
-			router.refresh();
 		}
 	};
 
@@ -178,9 +177,10 @@ const Hero = () => {
 		if (winningDialog) {
 			setTimeout(() => {
 				setWinningDialog(false);
+				router.refresh();
 			}, 10000);
 		}
-	}, [winningDialog]);
+	}, [winningDialog,router]);
 
 	return (
 		<div className="bg-[url('../assets/HeroImage.png')] min-h-screen w-full bg-center bg-auto bg-no-repeat flex justify-center items-center flex-col p-4 gap-16 relative">
